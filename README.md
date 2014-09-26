@@ -63,6 +63,8 @@ The default `limit` is 100.
 `datetime` - `YYYY-MM-DDThh:mm[:ss[.s]][TZD]`  
 [ISO standard][iso_date] date and time format. If the time zone offset is not specified, the authenticated user's timezone will be used to add timezone information.
 
+`time` - `hh:mm[:ss]`
+
 [iso_date]: http://www.w3.org/TR/NOTE-datetime
 
 # Resources
