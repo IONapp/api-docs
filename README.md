@@ -67,3 +67,7 @@ The default `limit` is 100.
 [/api/tokens/](resources/tokens.md)  
 [/api/users/](resources/users.md)  
 
+# Need more help?
+
+If you need more information about some part of the API, or you found a bug in the documentation, feel free to [open an issue here on github](https://github.com/IONapp/api-docs/issues).
+
