@@ -48,7 +48,7 @@ HTTP 200 OK
 `POST /api/holidays/`
 
 #### Fields
-`id` - id of the holiday to modify  
+`id` - id of the holiday to modify, should be omitted for new holidays  
 `name` - name of the holiday  
 `country` - country (2-letter code) the holiday is celebrated in  
 `date` - `yyyy-mm-dd` date of the holiday  
