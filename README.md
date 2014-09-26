@@ -55,6 +55,16 @@ If the resource doesn't contain the requested page, it will respond with `404 No
 
 The default `limit` is 100.
 
+# Common data types and formats
+
+`date` - `YYYY-MM-DD`  
+[ISO standard][iso_date] date format
+
+`datetime` - `YYYY-MM-DDThh:mm[:ss[.s]][TZD]`  
+[ISO standard][iso_date] date and time format. If the time zone offset is not specified, the authenticated user's timezone will be used to add timezone information.
+
+[iso_date]: http://www.w3.org/TR/NOTE-datetime
+
 # Resources
 [/api/calendar/](resources/calendar.md)  
 [/api/holidays/](resources/holidays.md)  

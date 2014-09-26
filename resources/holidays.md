@@ -6,7 +6,7 @@ Holidays - /api/holidays/
 `GET /api/holidays/`  
 
 #### Filters
-`date` - `yyyy-mm-dd` only holidays, which happen on the given date  
+`date` - `date` only holidays, which happen on the given date  
 `active` - `True|False` only holidays which are used by your domain  
 `country` - only holidays for the given 2-letter country code  
 `year` - only holidays for the given year  
@@ -51,7 +51,7 @@ HTTP 200 OK
 `id` - id of the holiday to modify, should be omitted for new holidays  
 `name` - name of the holiday  
 `country` - country (2-letter code) the holiday is celebrated in  
-`date` - `yyyy-mm-dd` date of the holiday  
+`date` - `date` date of the holiday  
 `active` - `true|false` whether the holiday is used by your ION domain  
 `repeating` - `true|false` whether a new holiday should be duplicated for each year, ignored when changing an existing holiday item  
 
