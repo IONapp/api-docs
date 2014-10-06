@@ -1,7 +1,7 @@
 ION API documentation
 ============================
 
-**ION is still heavily in development, so the API is subject to change.**
+**ION is still heavily in development, so the API is subject to change prior to the 1.0 release.**
 
 # Authentication
 
