@@ -1,8 +1,23 @@
 ION Authentication
 =========================
 
+# Basic Authentication
+
+You can authenticate your requests using HTTP Basic Authentication, specifying your ION user's email and password. If you're logging in through Google, you'll need to set a separate password for your account.
+
+## Example
+```
+# curl
+curl https://your-domain.ionapp.com/api/users/ \
+     --user john.doe@example.com:password
+
+# httpie
+http https://your-domain.ionapp.com/api/users/ \
+     -a john.doe@example.com:password
+```
+
 # Token Authentication
-Currently the only supported authentication method is per-user access token authentication. You can obtain a token from your profile page:
+For integrating services with ION, we recommend using per-user access tokens.You can obtain a token from your profile page:
 
 ![](ion-auth-token.gif)
 
