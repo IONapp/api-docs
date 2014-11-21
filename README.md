@@ -5,9 +5,12 @@ ION API documentation
 
 # Authentication
 
-Currently ION only supports per-user token authentication. You just need to add the `Authorization` header to your requests:
+Currently ION supports HTTP basic authentication and per-user token authentication. You just need to add an appropriate `Authorization` header to your requests:
 
 ```
+Authorization: Basic am9obi5kb2VAZXhhbXBsZS5jb206cGFzc3dvcmQ=\n
+                     # base64 of john.doe@example.com:password
+
 Authorization: Token YOUR_ACCESS_TOKEN
 ```
 
