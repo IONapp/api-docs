@@ -91,6 +91,6 @@ If you need more information about some part of the API, or you found a bug in t
 
 ## 0.12.x
 
-- Added the [events](resouces/events.md) resource, which will replace [calendar](resources/calendar.md), which is now deprecated.
+- Added the [events](resources/events.md) resource, which will replace [calendar](resources/calendar.md), which is now deprecated.
 - `/api/calendar/` now returns data relative to the authenticated user's timezone, in other words, a day now represents 24h in the authenticated user's timezone.
 - `/api/calendar/` now returns an array of schedules instead of a single schedule object.
