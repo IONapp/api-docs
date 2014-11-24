@@ -1,7 +1,8 @@
 Aggregated calendar data - /api/calendar/
 =========================================
 
-__The calendar api will most likely drasticaly change soon due to the size of responses it can produce... as you can see below.__
+## DEPRECATED since 0.12.x
+Use [/api/events/](events.md) instead.
 
 ## Filters
 Same for both `/api/calendar/` and `/api/calendar/weekly/`
@@ -89,11 +90,11 @@ HTTP 200 OK
                             "is_home_office": false
                         }
                     ], 
-                    "schedule": {
+                    "schedules": [{
                         "note": "I hate Mondays", 
                         "to": "2014-09-29T16:30:00Z", 
                         "from": "2014-09-29T08:00:00Z"
-                    }, 
+                    }], 
                     "home_office": false, 
                     "full_time_ratio": 1.0, 
                     "date": "2014-09-29", 
@@ -158,11 +159,11 @@ HTTP 200 OK
                 {
                     "working_hours": 8.0, 
                     "timeoffs": [], 
-                    "schedule": {
+                    "schedules": [{
                         "note": "", 
                         "to": "2014-09-29T15:30:00Z", 
                         "from": "2014-09-29T07:00:00Z"
-                    }, 
+                    }], 
                     "home_office": false, 
                     "full_time_ratio": 1.0, 
                     "date": "2014-09-29", 

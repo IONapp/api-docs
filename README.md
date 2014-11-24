@@ -72,6 +72,7 @@ The default `limit` is 100.
 
 # Resources
 [/api/calendar/](resources/calendar.md)  
+[/api/events/](resources/events.md)  
 [/api/holidays/](resources/holidays.md)  
 [/api/profile_schema/](resources/profile_schema.md)  
 [/api/profiles/](resources/profiles.md)  
@@ -86,3 +87,10 @@ The default `limit` is 100.
 
 If you need more information about some part of the API, or you found a bug in the documentation, feel free to [open an issue here on github](https://github.com/IONapp/api-docs/issues).
 
+# Changelog
+
+## 0.12.x
+
+- Added the [events](resouces/events.md) resource, which will replace [calendar](resources/calendar.md), which is now deprecated.
+- `/api/calendar/` now returns data relative to the authenticated user's timezone, in other words, a day now represents 24h in the authenticated user's timezone.
+- `/api/calendar/` now returns an array of schedules instead of a single schedule object.
