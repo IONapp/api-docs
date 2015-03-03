@@ -1,4 +1,4 @@
-Time off and Home office requests - /api/timeoff_requests/
+Time off types - /api/timeoff_requests/types/
 ==========================================================
 
 ## List time off types
@@ -79,7 +79,7 @@ HTTP 200 OK
 
 ## Delete multiple timeoff types
 
-`DELETE /api/timeoff_requests/`
+`DELETE /api/timeoff_requests/types/`
 
 You need to include a list of time off types ids in the requests's payload.
 If a type with a given id doesn't exist, that id will be ignored.
