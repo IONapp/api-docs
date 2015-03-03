@@ -1,4 +1,4 @@
-Time off and Home office requests - /api/timeoff_requests/
+Time off requests - /api/timeoff_requests/
 ==========================================================
 
 ## List requests
@@ -56,8 +56,7 @@ HTTP 200 OK
             "reason": "", 
             "comment": "", 
             "status": "Accepted", 
-            "status_changed_comment": "", 
-            "is_home_office": true
+            "status_changed_comment": ""
         }, 
         ...
     ]
@@ -75,10 +74,9 @@ HTTP 200 OK
 `end_date` - `datetime` end of the event  
 `reason` - event's description, visible to all ION domain users  
 `comment` - additional note only visible to managers and administrators  
-`is_home_office` - `true|false` whether this is a home office or time off request  
 
 __Note__  
-New time off requests can't overlap with existing accepted or pending time off requests from the same user. This also applies to home office requests. Trying to add an overlapping request will result in:
+New time off requests can't overlap with existing accepted or pending time off requests from the same user. Trying to add an overlapping request will result in:
 
 ```json
 HTTP 400 BAD REQUEST
@@ -102,7 +100,6 @@ POST /api/timeoff_requests/
     "owner": "john.doe",
     "start_date": "2014-09-30T22:00:00.000Z",
     "end_date": "2014-10-12T22:00:00.000Z",
-    "is_home_office": false,
     "reason": "Vacation",
     "comment": ""
 }
@@ -133,8 +130,7 @@ HTTP 201 CREATED
     "reason": "Vacation", 
     "comment": "", 
     "status": "Pending", 
-    "status_changed_comment": "", 
-    "is_home_office": false
+    "status_changed_comment": ""
 }
 ```
 
@@ -162,7 +158,6 @@ HTTP 200 OK
     "created": "2014-09-26T10:27:49.472Z", 
     "end_date": "2014-10-12T22:00:00Z", 
     "id": 3, 
-    "is_home_office": false, 
     "owner": {
         "first_name": "John", 
         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
@@ -241,7 +236,6 @@ HTTP 200 OK
     "reason": "Vacation", 
     "comment": "", 
     "status": "Rejected", 
-    "status_changed_comment": "You've already been assigned to a project for October", 
-    "is_home_office": false
+    "status_changed_comment": "You've already been assigned to a project for October"
 }
 ```

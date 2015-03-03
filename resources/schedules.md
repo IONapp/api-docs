@@ -12,14 +12,11 @@ Work schedules - /api/schedules/
 `until` - `date` schedules which are active on the given date or before  
 `on` - `date` schedules which are active on the given date  
 
-__Note__  
-Each schedule object describes a week of work time. Even if you use the `on` filter, you will still have to lookup the right weekday in the `work_hours` or `work_datetimes` lists.
-
 #### Example
 
-Get John Doe's active schedule for September 26th 2014
+Get John Doe's active schedule for December 1st 2014
 
-`GET /api/schedules/?user=john.doe&on=2014-09-26`
+`GET /api/schedules/?user=john.doe&on=2014-12-01`
 
 ```json
 HTTP 200 OK
@@ -30,38 +27,30 @@ HTTP 200 OK
     "previous": null, 
     "results": [
         {
-            "user": {
-                "id": 3, 
+            "owner": {
+                "id": 1, 
                 "username": "john.doe", 
-                "is_followed_by_me": false, 
                 "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
                 "first_name": "John", 
                 "last_name": "Doe"
             }, 
-            "work_hours": [
-                {"from": "09:00:00", "to": "17:30:00", "note": ""},
-                {"from": "09:00:00", "to": "17:30:00", "note": ""},
-                {"from": "09:00:00", "to": "17:30:00", "note": ""},
-                {"from": "09:00:00", "to": "17:30:00", "note": ""},
-                {"from": "09:00:00", "to": "17:30:00", "note": ""},
-                {"from": null, "to": null, "note": ""},
-                {"from": null, "to": null, "note": ""}
-            ], 
-            "work_datetimes": [
-                {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-                {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-                {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-                {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-                {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-                {"from": null, "to": null, "note": ""},
-                {"from": null, "to": null, "note": ""}
-            ], 
-            "id": 7, 
-            "date_added": "2014-09-26T15:48:10.157Z", 
-            "start_date": "2014-09-26", 
+            "start_date": "2014-11-15", 
             "end_date": null, 
-            "lunch_time": 30, 
-            "including_holidays": false
+            "rules": [
+                {
+                    "start_time": "09:00:00", 
+                    "end_time": "17:30:00", 
+                    "weekdays": ["mo", "tu", "we", "th", "fr"], 
+                    "timezone": "Europe/Warsaw", 
+                    "location": {
+                        "name": "office", 
+                        "icon": "office"
+                    }, 
+                    "comment": "", 
+                    "id": 11
+                }
+            ], 
+            "id": 11
         }
     ]
 }
@@ -69,55 +58,60 @@ HTTP 200 OK
 
 ## Update a user's schedule
 
-`POST /api/schedules/`
+`POST /api/schedules/insert/`
 
 __Note__  
 Only administrators can add schedules for other users.
 
 #### Fields
 
-`user` - username of the schedule's owner  
-`start_date` - `date` from which the schedule is active  
-`end_date` - `date` until which the schedule is active, you can use `null` to specify a schedule that never ends  
-`lunch_time` - `integer` minutes spent on lunch breaks per day  
-`including_holidays` - `true|false` whether the user works on holidays  
-
-`work_hours` - `array` a list of work hours for each day of the week, starting with Monday:  
-- `from` - `time` when the user starts working on the given day  
-- `to` - `time` when the user ends working on the given day  
-- `note` - additional information about the work hours of the given day  
-
-If the user doesn't work on a given day of the week, pass `null` as both `from` and `to`.
+`owner` - username of the schedule's owner  
+`start_date` - `date` from which the schedule is active, should be a monday  
+`end_date` - `date` until which the schedule is active, should be a sunday, you can use `null` to specify a schedule that never ends  
+`rules` - `array` of schedule recurrence rules:
+- `start_time` - `time` when the work window starts
+- `end_time` - `time` when the work window ends
+- `weekdays` - `array` of short weekday names for which the rule applies
+- `location` - `string` name of the work location
+- `comment` - `string`, optional, user's comment for the rule
 
 __Note__  
 Adding a new schedule will (most likely) modify other schedules' `start_date` and/or `end_date` to make sure only one schedule is active on any given date.
 
 __Note__  
-To get actual work time for a any date, it will be combined with work hours using the schedule owner's timezone. You can change it using the [`/api/users/`](users.md) resource.  
-`work_datetimes` array in the response is the result of combining `work_hours` with the current server date.
+To get actual work datetimes, rule's `start_time` and `end_time` will be combined with dates using the schedule owner's timezone. You can change it using the [`/api/users/`](users.md) resource.  
 
 #### Example
 
-John usually works from 9am til 5:30pm, but he's not a fan of Mondays and doesn't work on weekends.
+John usually works from 9am til 5:30pm, but he's working from home Monday mornings and doesn't work on weekends.
 
 ```json
-POST /api/schedules/
+POST /api/schedules/insert/
 
 {
-    "user": "john.doe",
-    "work_hours": [
-        {"from": "10:00:00", "to": "18:30:00", "note": "I hate Mondays"},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": null, "to": null, "note": ""},
-        {"from": null, "to": null, "note": ""}
-    ], 
-    "start_date": "2014-09-26", 
+    "owner": "john.doe",
+    "start_date": "2014-12-08", 
     "end_date": null, 
-    "lunch_time": 30, 
-    "including_holidays": false
+    "rules": [
+        {
+          "start_time": "09:00:00",
+          "end_time": "17:30:00",
+          "weekdays": ["tu", "we", "th", "fr"],
+          "location": "office"
+        },
+        {
+          "start_time": "09:00:00",
+          "end_time": "12:00:00",
+          "weekdays": ["mo"],
+          "location": "home"
+        },
+        {
+          "start_time": "12:30:00",
+          "end_time": "18:00:00",
+          "weekdays": ["mo"],
+          "location": "office"
+        }
+    ]
 }
 ```
 
@@ -125,37 +119,53 @@ POST /api/schedules/
 HTTP 201 CREATED
 
 {
-    "user": {
-        "id": 3, 
+    "owner": {
+        "id": 1, 
         "username": "john.doe", 
-        "is_followed_by_me": false, 
         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
         "first_name": "John", 
         "last_name": "Doe"
     }, 
-    "work_hours": [
-        {"from": "10:00:00", "to": "18:30:00", "note": "I hate Mondays"},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": "09:00:00", "to": "17:30:00", "note": ""},
-        {"from": null, "to": null, "note": ""},
-        {"from": null, "to": null, "note": ""}
-    ], 
-    "work_datetimes": [
-        {"from": "2014-09-26T08:00:00Z", "to": "2014-09-26T16:30:00Z", "note": "I hate Mondays"},
-        {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-        {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-        {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-        {"from": "2014-09-26T07:00:00Z", "to": "2014-09-26T15:30:00Z", "note": ""},
-        {"from": null, "to": null, "note": ""},
-        {"from": null, "to": null, "note": ""}
-    ], 
-    "id": 8, 
-    "date_added": "2014-09-26T16:26:22.992Z", 
-    "start_date": "2014-09-26", 
+    "start_date": "2014-12-08", 
     "end_date": null, 
-    "lunch_time": 30, 
-    "including_holidays": false
+    "rules": [
+        {
+            "start_time": "09:00:00", 
+            "end_time": "17:30:00", 
+            "weekdays": ["we", "tu", "fr", "th"], 
+            "timezone": "Europe/Warsaw", 
+            "location": {
+                "name": "office", 
+                "icon": "office"
+            }, 
+            "comment": "", 
+            "id": 12
+        }, 
+        {
+            "start_time": "09:00:00", 
+            "end_time": "12:00:00", 
+            "weekdays": ["mo"], 
+            "timezone": "Europe/Warsaw", 
+            "location": {
+                "name": "home", 
+                "icon": "home"
+            }, 
+            "comment": "", 
+            "id": 13
+        }, 
+        {
+            "start_time": "12:30:00", 
+            "end_time": "18:00:00", 
+            "weekdays": ["mo"], 
+            "timezone": "Europe/Warsaw", 
+            "location": {
+                "name": "office", 
+                "icon": "office"
+            }, 
+            "comment": "", 
+            "id": 14
+        }
+    ], 
+    "id": 12
 }
 ```
