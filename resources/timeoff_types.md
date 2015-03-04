@@ -1,9 +1,9 @@
-Time off types - /api/timeoff_requests/types/
+Time off types - /api/timeoff_types/
 ==========================================================
 
 ## List time off types
 
-`GET /api/timeoff_requests/types/`
+`GET /api/timeoff_types/`
 
 ```json
 HTTP 200 OK
@@ -37,7 +37,7 @@ HTTP 200 OK
 
 ## Add a time off type
 
-`POST /api/timeoff_requests/types/`
+`POST /api/timeoff_types/`
 
 #### Fields
 
@@ -56,7 +56,7 @@ You can send an array of type objects for a batch insert, the response will be a
 #### Example
 
 ```json
-POST /api/timeoff_requests/types/
+POST /api/timeoff_types/
 
 {
     "color": "#DBDB2B",
@@ -81,7 +81,7 @@ HTTP 200 OK
 
 ## Delete multiple timeoff types
 
-`DELETE /api/timeoff_requests/types/`
+`DELETE /api/timeoff_types/`
 
 You need to include a list of time off type ids in the request's payload.
 If a type with a given id doesn't exist, that id will be ignored.

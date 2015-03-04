@@ -79,7 +79,7 @@ The default `limit` is 100.
 [/api/schedules/](resources/schedules.md)  
 [/api/tenant/](resources/tenant.md)  
 [/api/timeoff_requests/](resources/timeoff_requests.md)  
-[/api/timeoff_requests/types/](resources/timeoff_types.md)  
+[/api/timeoff_types/](resources/timeoff_types.md)  
 [/api/timezones/](resources/timezones.md)  
 [/api/tokens/](resources/tokens.md)  
 [/api/users/](resources/users.md)  
