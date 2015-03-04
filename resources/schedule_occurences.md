@@ -56,9 +56,9 @@ Only administrators can add schedule occurences for other users.
 
 `owner` - username of the schedule's owner  
 `start_date` - `datetime` when the occurence starts  
-`end_date` - `datetime` when the occurence ends
-`location` - `string` name of the work location
-`comment` - `string`, optional, user's comment for the occurence
+`end_date` - `datetime` when the occurence ends  
+`location` - `string` name of the work location  
+`comment` - `string`, optional, user's comment for the occurence  
 
 #### Example
 
