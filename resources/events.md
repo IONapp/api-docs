@@ -135,37 +135,37 @@ Get all events for the week of November 24th 2014
             {
                 "start": "2014-11-24T08:00:00Z", 
                 "end": "2014-11-24T16:30:00Z", 
-                "type": "work-schedule"
+                "type": "work-schedule",
                 "data": {
                     "comment": "", 
                     "comment": "", 
                     "status": "Accepted", 
                     "location": "home", 
-                    "status_msg": "Accepted by John Doe", 
+                    "status_msg": "Accepted by John Doe"
                 }
             }, 
             {
                 "start": "2014-11-25T08:00:00Z", 
                 "end": "2014-11-25T16:30:00Z", 
-                "type": "work-schedule"
+                "type": "work-schedule",
                 "data": {
                     "comment": "", 
                     "comment": "", 
                     "status": "Accepted", 
                     "location": "home", 
-                    "status_msg": "Accepted by John Doe", 
+                    "status_msg": "Accepted by John Doe"
                 }
             }, 
             {
                 "start": "2014-11-26T08:00:00Z", 
                 "end": "2014-11-26T16:30:00Z", 
-                "type": "work-schedule"
+                "type": "work-schedule",
                 "data": {
                     "comment": "", 
                     "comment": "", 
                     "status": "Accepted", 
                     "location": "home", 
-                    "status_msg": "Accepted by John Doe", 
+                    "status_msg": "Accepted by John Doe"
                 }
             }, 
             {
