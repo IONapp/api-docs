@@ -35,21 +35,23 @@ HTTP 200 OK
 ```
 
 
-## Add a time off types
+## Add a time off type
 
 `POST /api/timeoff_requests/types/`
 
 #### Fields
 
-`id`    - optional, when you add id, time off type will be updated instead of create
+`id`    - optional, will update an existing type if provided  
+`enabled` - optional, disabled types cannot be used to create new time off requests  
 `label` - time off type label  
-`icon`  - string representation of icon that admin choosed for this type. Ion desktop use font-awesome 4.2 icons  
-`color` - hexadecimal representation of time off type color
-`can_be_removed` - read-only, when at least one time off with current type exists this type can not be removed, this flag indicates it  
-`enabled` - optional, unremovable types can be disabled. Existing time off requests with disabled type will be accessible, but it can not be created new one with this type.  
+`icon`  - [font-awesome](http://fontawesome.io/icons/) icon name, eg. `fa-suitcase`  
+`color` - type color, hexadecimal, eg. `#E95A4A`  
 
 __Note__  
-Only administrators can add a time off type. This api take one time off type object, or list of them. When you send a list, you will get list in response too.
+Only administrators can add time off types. 
+
+__Note__  
+You can send an array of type objects for a batch insert, the response will be an array of created types.
 
 #### Example
 
@@ -81,11 +83,16 @@ HTTP 200 OK
 
 `DELETE /api/timeoff_requests/types/`
 
-You need to include a list of time off types ids in the requests's payload.
+You need to include a list of time off type ids in the request's payload.
 If a type with a given id doesn't exist, that id will be ignored.
-Only types that has 'can_be_remove' flag (from GET api) true can be deleted.
 
-HTTP 204 NO CONTENT - success
+__Note__  
+Only types which don't have any time off requests associated with them can be removed. The `can_be_removed` flag indicates whether it's possible to delete a given type.
+
+#### Response codes
+`HTTP 204 NO CONTENT` - success  
+`HTTP 403 FORBIDDEN` - at least one of the selected types cannot be removed, eg.:  
+
 ```json
 HTTP 403 FORBIDDEN
 
