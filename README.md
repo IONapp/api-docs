@@ -94,6 +94,10 @@ If you need more information about some part of the API, or you found a bug in t
 - Redesigned [schedules][] structure, more below
 - Added the [schedule occurences][] resource
 - Removed home office [timeoff][timeoff requests] requests (`is_home_office` flag)
+- Renamed `note` to `comment` in `work-schedule` [events][]
+- Moved the `type` field out of `data` in [events][], so it doesn't 
+  collide with the type of timeoff requests
+- Renamed `timeoff-type` to `type` in time-off [events][]
 
 #### Schedule redesign
 
