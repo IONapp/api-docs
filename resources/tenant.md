@@ -20,6 +20,7 @@ __Visible to all domain members__
 `company_website` - your company's website url  
 `auto_accept_requests` - whether time off and home office requests are automatically accepted  
 `timezone_name` - name of the domain's main timezone, used for domain-wide events, eg. holidays  
+`timeoff_types` - available types of timeoffs - with their label, icon and color
 
 __Visible to administrators__  
 `date_added` - when the domain was created  
@@ -37,13 +38,18 @@ HTTP 200 OK
         "google"
     ], 
     "domain": "your-domain", 
-    "domain_url": "your-domain.localhost.com", 
+    "domain_url": "your-domain.localhost.com",
     "root_url": "http://your-domain.ionapp.com/", 
     "company_website": "http://your-company.com", 
     "auto_accept_requests": false, 
     "projects_enabled": false, 
     "timezone_name": "Europe/Warsaw", 
     "date_added": "2014-09-22T10:37:29.562Z", 
+    "timeoff_types": [
+        {"id": 1, "label": "Vacation", "icon": "fa-plane", "color": "#E95A4A"}
+        {"id": 2, "label": "Sick leave", "icon": "fa-medkit", "color": "#8A6493"}
+        {"id": 3, "label": "Conference", "icon": "fa-university", "color": "#E4A834"}
+    ],
     "integrations": {
         "google": {
             "name": "Google Apps", 
