@@ -38,7 +38,7 @@ HTTP 200 OK
         "google"
     ], 
     "domain": "your-domain", 
-    "domain_url": "your-domain.localhost.com", domain
+    "domain_url": "your-domain.localhost.com",
     "root_url": "http://your-domain.ionapp.com/", 
     "company_website": "http://your-company.com", 
     "auto_accept_requests": false, 

@@ -137,6 +137,20 @@ Because of this process, some information is lost:
 
 ## 0.14.x
 
+- Added customizable [time off types][timeoff types]
+- time off request `reason` is no longer required
+
+#### Time-off types
+
+Each time off request now has a type associated with it. 
+We've added 3 default types:
+
+- Vacation - default for existing time offs
+- Sick leave
+- Conference
+
+Each type has an icon ([font-awesome][]) and a color, so you can easily tell them apart. You can use the [time off types][] resource to manage them.
+
 ## 0.12.x
 
 - Added the [events][] resource, which will replace [calendar][], which is now deprecated.
@@ -144,6 +158,7 @@ Because of this process, some information is lost:
 - `/api/calendar/` now returns an array of schedules instead of a single schedule object.
 
 [iso_date]: http://www.w3.org/TR/NOTE-datetime
+[font-awesome]: http://fontawesome.io
 
 [authentication]: authentication/README.md "Authentication"
 [calendar]: resources/calendar.md "Calendar"
