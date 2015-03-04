@@ -125,6 +125,10 @@ Because of this process, some information is lost:
   home office requests will be "accepted" by converting them to schedules
 - home office's `comment` (private message) data is not transfered to 
   schedule rules/occurences
+- schedule's `including_holidays` flag was removed, if a user wants to work 
+  during a holiday, he has to explicitly add a [schedule occurence][schedule occurences]
+- schedule's `lunch_time` field was removed, users can add gaps 
+  in their schedule to compensate
 
 ## 0.14.x
 
