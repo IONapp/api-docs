@@ -75,6 +75,7 @@ Each event has a `start` date, an `end` date and a `data` object. The event type
 - `data.reason` - reason
 - `data.comment` - private message
 - `data.status` - request status
+- `data.timeoff-type` - id of custom time off type, check [/api/timeoff_types/](./timeoff_types.md)  
 
 ```json
 {
