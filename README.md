@@ -98,6 +98,7 @@ If you need more information about some part of the API, or you found a bug in t
 - Moved the `type` field out of `data` in [events][], so it doesn't 
   collide with the type of timeoff requests
 - Renamed `timeoff-type` to `type` in time-off [events][]
+- Removed `status_msg` in time-off [events][]
 
 #### Schedule redesign
 

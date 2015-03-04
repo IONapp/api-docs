@@ -138,10 +138,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule",
                 "data": {
                     "comment": "", 
-                    "comment": "", 
-                    "status": "Accepted", 
-                    "location": "home", 
-                    "status_msg": "Accepted by John Doe"
+                    "location": "home"
                 }
             }, 
             {
@@ -150,10 +147,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule",
                 "data": {
                     "comment": "", 
-                    "comment": "", 
-                    "status": "Accepted", 
-                    "location": "home", 
-                    "status_msg": "Accepted by John Doe"
+                    "location": "home"
                 }
             }, 
             {
@@ -162,10 +156,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule",
                 "data": {
                     "comment": "", 
-                    "comment": "", 
-                    "status": "Accepted", 
-                    "location": "home", 
-                    "status_msg": "Accepted by John Doe"
+                    "location": "home"
                 }
             }, 
             {
@@ -212,8 +203,7 @@ Get all events for the week of November 24th 2014
                 "type": "time-off", 
                 "data": {
                     "comment": "", 
-                    "status": "Pending", 
-                    "status_msg": "Pending", 
+                    "status": "Pending",
                     "reason": "Long weekend", 
                     "id": 11,
                     "type": 1
@@ -298,7 +288,6 @@ Get John Doe's events for the week of November 24th 2014
         "data": {
             "comment": "", 
             "status": "Pending", 
-            "status_msg": "Pending", 
             "reason": "Long weekend", 
             "id": 11,
             "type": 1
