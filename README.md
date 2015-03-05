@@ -77,7 +77,7 @@ The default `limit` is 100.
 [/api/schedule_occurences/][schedule occurences]  
 [/api/tenant/][tenant]  
 [/api/timeoff_requests/][timeoff requests]  
-[/api/timeoff_types/][timeoff types]  
+[/api/timeoff_requests/types/][timeoff types]  
 [/api/timezones/][timezones]  
 [/api/tokens/][tokens]  
 [/api/users/][users]  
