@@ -79,6 +79,7 @@ The default `limit` is 100.
 [/api/schedules/](resources/schedules.md)  
 [/api/tenant/](resources/tenant.md)  
 [/api/timeoff_requests/](resources/timeoff_requests.md)  
+[/api/timeoff_types/](resources/timeoff_types.md)  
 [/api/timezones/](resources/timezones.md)  
 [/api/tokens/](resources/tokens.md)  
 [/api/users/](resources/users.md)  
@@ -88,6 +89,22 @@ The default `limit` is 100.
 If you need more information about some part of the API, or you found a bug in the documentation, feel free to [open an issue here on github](https://github.com/IONapp/api-docs/issues).
 
 # Changelog
+
+## 0.14.x
+
+- Added customizable [time-off types](resources/timeoff_types.md)
+- time off request `reason` is no longer required
+
+#### Time-off types
+
+Each time off request now has a type associated with it. 
+We've added 3 default types:
+
+- Vacation - default for existing time offs
+- Sick leave
+- Conference
+
+Each type has an icon ([font-awesome](http://fontawesome.io)) and a color, so you can easily tell them apart. You can use the [time off types](resources/timeoff_types.md) resource to manage them.
 
 ## 0.12.x
 
