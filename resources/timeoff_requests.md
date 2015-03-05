@@ -87,7 +87,6 @@ HTTP 200 OK
 `end_date` - `datetime` end of the event  
 `reason` - event's description, visible to all ION domain users  
 `comment` - additional note only visible to managers and administrators  
-`is_home_office` - `true|false` whether this is a home office or time off request  
 `approvers` - list of request approvers, they get email asking them to confirm time off request. request will be accepted when all approvers confirm reuqest, rejected when any of approvers reject it  
 
 __Note__  
