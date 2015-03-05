@@ -141,10 +141,24 @@ HTTP 201 CREATED
     }, 
     "approvers": [
         {
-            "user": {"id": 4, "username": "john.doe2"}
+            "status": "Pending",
+            "user": {
+                "id": 32
+                "first_name": "john"
+                "last_name": "doe"
+                "username": "john.doe2"
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
+            }
         },
         {
-            "user": {"id": 5, "username": "john.doe3"}
+            "status": "Pending",
+            "user": {
+                "id": 33
+                "first_name": "john"
+                "last_name": "doe"
+                "username": "john.doe3"
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
+            }
         }
     ],
     "status_msg": "Pending", 
