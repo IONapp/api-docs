@@ -1,4 +1,4 @@
-Time off and Home office requests - /api/timeoff_requests/
+Time off requests - /api/timeoff_requests/
 ==========================================================
 
 ## List requests
@@ -12,12 +12,13 @@ Time off and Home office requests - /api/timeoff_requests/
 `on` - `date` requests which are present on the given day  
 `since` - `date` requests which are present on the given day or later  
 `until` - `date` requests which are present on the given day or before  
+`for_approval_by` - requests that waiting for approval for specific person, accept approver user name  
 
 #### Example
 
 Get a list of accepted John Doe's requests for 2014.
 
-`GET /api/timeoff_requests/?user=john.doe&status=accepted&since=2014-01-01&until=2014-12-31`
+`GET /api/timeoff_requests/?user=john.doe&status=accepted&since=2014-01-01&until=2014-12-31&for_approval_by=1`
 
 ```json
 HTTP 200 OK
@@ -28,6 +29,18 @@ HTTP 200 OK
     "previous": null, 
     "results": [
         {
+            "approvers": [
+                {
+                    "user": {
+                        "id": 1, 
+                        "username": "jane.doe", 
+                        "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
+                        "first_name": "Jane", 
+                        "last_name": "Doe"
+                    }, 
+                    "status": "Pending"
+                }
+            ], 
             "status_changed_by": {
                 "id": 4, 
                 "username": "jane.doe", 
@@ -56,8 +69,7 @@ HTTP 200 OK
             "reason": "", 
             "comment": "", 
             "status": "Accepted", 
-            "status_changed_comment": "", 
-            "is_home_office": true
+            "status_changed_comment": ""
         }, 
         ...
     ]
@@ -75,10 +87,10 @@ HTTP 200 OK
 `end_date` - `datetime` end of the event  
 `reason` - event's description, visible to all ION domain users  
 `comment` - additional note only visible to managers and administrators  
-`is_home_office` - `true|false` whether this is a home office or time off request  
+`approvers` - list of request approvers, they get email asking them to confirm time off request. request will be accepted when all approvers confirm reuqest, rejected when any of approvers reject it  
 
 __Note__  
-New time off requests can't overlap with existing accepted or pending time off requests from the same user. This also applies to home office requests. Trying to add an overlapping request will result in:
+New time off requests can't overlap with existing accepted or pending time off requests from the same user. Trying to add an overlapping request will result in:
 
 ```json
 HTTP 400 BAD REQUEST
@@ -102,10 +114,16 @@ POST /api/timeoff_requests/
     "owner": "john.doe",
     "start_date": "2014-09-30T22:00:00.000Z",
     "end_date": "2014-10-12T22:00:00.000Z",
-    "is_home_office": false,
     "reason": "Vacation",
-    "comment": ""
-}
+    "comment": "",
+    "approvers": [
+        {
+            "user": {"username": "john.doe2"}
+        },
+        {
+            "user": {"username": "john.doe3"}
+        }
+    ]
 ```
 
 ```json
@@ -121,6 +139,28 @@ HTTP 201 CREATED
         "first_name": "John", 
         "last_name": "Doe"
     }, 
+    "approvers": [
+        {
+            "status": "Pending",
+            "user": {
+                "id": 32
+                "first_name": "john"
+                "last_name": "doe"
+                "username": "john.doe2"
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
+            }
+        },
+        {
+            "status": "Pending",
+            "user": {
+                "id": 33
+                "first_name": "john"
+                "last_name": "doe"
+                "username": "john.doe3"
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
+            }
+        }
+    ],
     "status_msg": "Pending", 
     "cancelable": true, 
     "acceptable": false, 
@@ -133,8 +173,7 @@ HTTP 201 CREATED
     "reason": "Vacation", 
     "comment": "", 
     "status": "Pending", 
-    "status_changed_comment": "", 
-    "is_home_office": false
+    "status_changed_comment": ""
 }
 ```
 
@@ -162,7 +201,6 @@ HTTP 200 OK
     "created": "2014-09-26T10:27:49.472Z", 
     "end_date": "2014-10-12T22:00:00Z", 
     "id": 3, 
-    "is_home_office": false, 
     "owner": {
         "first_name": "John", 
         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
@@ -194,7 +232,7 @@ HTTP 200 OK
 `POST /api/timeoff_requests/<id>/accept/`  
 `POST /api/timeoff_requests/<id>/reject/`
 
-Available to managers and admins, but not the request's owner.  
+Available only to request approvers, choosed by user who create request.
 When rejecting a request, you can add a comment for the request's owner.
 
 #### Example
@@ -241,7 +279,6 @@ HTTP 200 OK
     "reason": "Vacation", 
     "comment": "", 
     "status": "Rejected", 
-    "status_changed_comment": "You've already been assigned to a project for October", 
-    "is_home_office": false
+    "status_changed_comment": "You've already been assigned to a project for October"
 }
 ```
