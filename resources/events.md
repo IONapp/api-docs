@@ -101,6 +101,9 @@ Each event has a `start` date, an `end` date, `type` and a `data` object.
 `users` - only users with the specified ids, comma separated  
 `search` - only users that match a search phrase  
 
+*Output*  
+`overlapping` - `true|false` (default: `true`) whether events can overlap. If you pass `false`, the endpoint will collapse events, according to their priority, eg. `time-off` events will obscure `work-schedule` events.
+
 ## List default events
 
 `GET /api/events/`
