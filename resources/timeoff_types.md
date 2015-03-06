@@ -19,7 +19,6 @@ HTTP 200 OK
             "icon": "fa-plane",
             "enabled": false,
             "color": "#E95A4A",
-            "description": "vacation time off help text",
             "can_be_removed": false
         },
         {
@@ -27,7 +26,6 @@ HTTP 200 OK
             "label": "Sick leave",
             "icon": "fa-medkit",
             "enabled": true,
-            "description": "vacation time off help text",
             "color": "#8A6493",
             "can_be_removed": true
         }
@@ -48,7 +46,6 @@ HTTP 200 OK
 `label` - time off type label  
 `icon`  - [font-awesome](http://fontawesome.io/icons/) icon name, eg. `fa-suitcase`  
 `color` - type color, hexadecimal, eg. `#E95A4A`  
-`description` -  time off type human friendly description, maximum length of 256 chars  
 
 __Note__  
 Only administrators can add time off types. 
@@ -64,8 +61,7 @@ POST /api/timeoff_requests/types/
 {
     "color": "#DBDB2B",
     "icon": "fa-cutlery",
-    "label": "newtype",
-    "description" : "human friendly description"
+    "label": "newtype"
 }
 ```
 
@@ -78,7 +74,6 @@ HTTP 200 OK
     "icon": "fa-cutlery",
     "enabled": true,
     "color": "#DBDB2B",
-    "description" : "human friendly description",
     "can_be_removed": true
 }
 
