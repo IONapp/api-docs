@@ -3,7 +3,7 @@ Events - /api/events/
 
 ## Event
 
-Each event has a `start` date, an `end` date and a `data` object. The event type is stored in `data.type`.
+Each event has a `start` date, an `end` date, `type` and a `data` object.
 
 #### Example
 
@@ -11,9 +11,9 @@ Each event has a `start` date, an `end` date and a `data` object. The event type
 {
     "start": "2014-11-24T08:00:00Z", 
     "end": "2014-11-24T16:30:00Z", 
+    "type": "work-schedule", 
     "data": {
-        "note": "", 
-        "type": "work-schedule", 
+        "comment": "", 
         "location": "office"
     }
 }, 
@@ -29,28 +29,28 @@ Each event has a `start` date, an `end` date and a `data` object. The event type
 {
     "start": "2014-11-10T23:00:00Z", 
     "end": "2014-11-11T23:00:00Z", 
+    "type": "holiday", 
     "data": {
-        "type": "holiday", 
         "name": "Independence Day"
     }
 }
 ```
 
-#### Work schedule (including home office requests) - `work-schedule`
+#### Work schedule - `work-schedule`
 
 - `data.location` - name of the work location, currently `office` or `home`
-- `data.note` - schedule note or home office reason
-- `data.comment` - request private message
-- `data.status` - request status
+- `data.comment` - user's comment
+- `data.id` - custom schedule occurence's `id`, 
+              omitted for scheduled occurences
 
 ```json
 {
     "start": "2014-11-24T08:00:00Z", 
     "end": "2014-11-24T16:30:00Z", 
+    "type": "work-schedule", 
     "data": {
-        "type": "work-schedule", 
         "location": "office",
-        "note": "" 
+        "comment": "" 
     }
 }
 ```
@@ -59,12 +59,11 @@ Each event has a `start` date, an `end` date and a `data` object. The event type
 {
     "start": "2014-11-27T08:00:00Z", 
     "end": "2014-11-27T16:30:00Z", 
+    "type": "work-schedule",
     "data": {
-        "type": "work-schedule",
         "location": "home", 
-        "note": "", 
-        "comment": "", 
-        "status": "Pending"
+        "comment": "working from home",
+        "id": 793
     }
 }
 ```
@@ -75,18 +74,19 @@ Each event has a `start` date, an `end` date and a `data` object. The event type
 - `data.reason` - reason
 - `data.comment` - private message
 - `data.status` - request status
-- `data.timeoff-type` - id of custom time off type, check [/api/timeoff_types/](./timeoff_types.md)  
+- `data.type` - id of custom time off type, check [/api/timeoff_requests/types/](./timeoff_types.md)  
 
 ```json
 {
     "start": "2014-11-26T11:30:00Z", 
     "end": "2014-11-26T13:00:00Z", 
+    "type": "time-off", 
     "data": {
-        "type": "time-off", 
         "id": 418,
+        "type": 1,
         "reason": "Doctor's appointment", 
         "comment": "", 
-        "status": "Pending"
+        "status": "Pending",
     }
 }
 ```
@@ -100,6 +100,9 @@ Each event has a `start` date, an `end` date and a `data` object. The event type
 *Users*  
 `users` - only users with the specified ids, comma separated  
 `search` - only users that match a search phrase  
+
+*Output*  
+`overlapping` - `true|false` (default: `true`) whether events can overlap. If you pass `false`, the endpoint will collapse events, according to their priority, eg. `time-off` events will obscure `work-schedule` events.
 
 ## List default events
 
@@ -124,8 +127,8 @@ Get all events for the week of November 24th 2014
         {
             "start": "2014-11-26T23:00:00Z", 
             "end": "2014-11-27T23:00:00Z", 
+            "type": "holiday", 
             "data": {
-                "type": "holiday", 
                 "name": "Thanksgiving Day"
             }
         }
@@ -135,45 +138,36 @@ Get all events for the week of November 24th 2014
             {
                 "start": "2014-11-24T08:00:00Z", 
                 "end": "2014-11-24T16:30:00Z", 
+                "type": "work-schedule",
                 "data": {
-                    "note": "", 
                     "comment": "", 
-                    "status": "Accepted", 
-                    "location": "home", 
-                    "status_msg": "Accepted by John Doe", 
-                    "type": "work-schedule"
+                    "location": "home"
                 }
             }, 
             {
                 "start": "2014-11-25T08:00:00Z", 
                 "end": "2014-11-25T16:30:00Z", 
+                "type": "work-schedule",
                 "data": {
-                    "note": "", 
                     "comment": "", 
-                    "status": "Accepted", 
-                    "location": "home", 
-                    "status_msg": "Accepted by John Doe", 
-                    "type": "work-schedule"
+                    "location": "home"
                 }
             }, 
             {
                 "start": "2014-11-26T08:00:00Z", 
                 "end": "2014-11-26T16:30:00Z", 
+                "type": "work-schedule",
                 "data": {
-                    "note": "", 
                     "comment": "", 
-                    "status": "Accepted", 
-                    "location": "home", 
-                    "status_msg": "Accepted by John Doe", 
-                    "type": "work-schedule"
+                    "location": "home"
                 }
             }, 
             {
                 "start": "2014-11-28T08:00:00Z", 
                 "end": "2014-11-28T16:30:00Z", 
+                "type": "work-schedule", 
                 "data": {
-                    "note": "", 
-                    "type": "work-schedule", 
+                    "comment": "", 
                     "location": "office"
                 }
             }
@@ -182,48 +176,48 @@ Get all events for the week of November 24th 2014
             {
                 "start": "2014-11-24T08:00:00Z", 
                 "end": "2014-11-24T16:30:00Z", 
+                "type": "work-schedule", 
                 "data": {
-                    "note": "", 
-                    "type": "work-schedule", 
+                    "comment": "", 
                     "location": "office"
                 }
             }, 
             {
                 "start": "2014-11-25T08:00:00Z", 
                 "end": "2014-11-25T16:30:00Z", 
+                "type": "work-schedule", 
                 "data": {
-                    "note": "", 
-                    "type": "work-schedule", 
+                    "comment": "", 
                     "location": "office"
                 }
             }, 
             {
                 "start": "2014-11-26T08:00:00Z", 
                 "end": "2014-11-26T16:30:00Z", 
+                "type": "work-schedule", 
                 "data": {
-                    "note": "", 
-                    "type": "work-schedule", 
+                    "comment": "", 
                     "location": "office"
                 }
             }, 
             {
                 "start": "2014-11-27T23:00:00Z", 
                 "end": "2014-11-28T23:00:00Z", 
+                "type": "time-off", 
                 "data": {
                     "comment": "", 
-                    "status": "Pending", 
-                    "status_msg": "Pending", 
+                    "status": "Pending",
                     "reason": "Long weekend", 
-                    "type": "time-off", 
-                    "id": 11
+                    "id": 11,
+                    "type": 1
                 }
             }, 
             {
                 "start": "2014-11-28T08:00:00Z", 
                 "end": "2014-11-28T16:30:00Z", 
+                "type": "work-schedule", 
                 "data": {
-                    "note": "", 
-                    "type": "work-schedule", 
+                    "comment": "", 
                     "location": "office"
                 }
             }
@@ -266,48 +260,48 @@ Get John Doe's events for the week of November 24th 2014
     {
         "start": "2014-11-24T08:00:00Z", 
         "end": "2014-11-24T16:30:00Z", 
+        "type": "work-schedule", 
         "data": {
-            "note": "", 
-            "type": "work-schedule", 
+            "comment": "", 
             "location": "office"
         }
     }, 
     {
         "start": "2014-11-25T08:00:00Z", 
         "end": "2014-11-25T16:30:00Z", 
+        "type": "work-schedule", 
         "data": {
-            "note": "", 
-            "type": "work-schedule", 
+            "comment": "", 
             "location": "office"
         }
     }, 
     {
         "start": "2014-11-26T08:00:00Z", 
         "end": "2014-11-26T16:30:00Z", 
+        "type": "work-schedule", 
         "data": {
-            "note": "", 
-            "type": "work-schedule", 
+            "comment": "", 
             "location": "office"
         }
     }, 
     {
         "start": "2014-11-27T23:00:00Z", 
         "end": "2014-11-28T23:00:00Z", 
+        "type": "time-off", 
         "data": {
             "comment": "", 
             "status": "Pending", 
-            "status_msg": "Pending", 
             "reason": "Long weekend", 
-            "type": "time-off", 
-            "id": 11
+            "id": 11,
+            "type": 1
         }
     }, 
     {
         "start": "2014-11-28T08:00:00Z", 
         "end": "2014-11-28T16:30:00Z", 
+        "type": "work-schedule", 
         "data": {
-            "note": "", 
-            "type": "work-schedule", 
+            "comment": "", 
             "location": "office"
         }
     }
