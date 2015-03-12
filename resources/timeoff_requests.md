@@ -44,7 +44,6 @@ HTTP 200 OK
             "status_changed_by": {
                 "id": 4, 
                 "username": "jane.doe", 
-                "is_followed_by_me": false, 
                 "icon": "https://secure.gravatar.com/avatar/0cba00ca3da1b283a57287bcceb17e35?d=mm", 
                 "first_name": "Jane", 
                 "last_name": "Doe"
@@ -52,7 +51,6 @@ HTTP 200 OK
             "owner": {
                 "id": 3, 
                 "username": "john.doe", 
-                "is_followed_by_me": false, 
                 "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
                 "first_name": "John", 
                 "last_name": "Doe"
@@ -134,7 +132,6 @@ HTTP 201 CREATED
     "owner": {
         "id": 3, 
         "username": "john.doe", 
-        "is_followed_by_me": false, 
         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
         "first_name": "John", 
         "last_name": "Doe"
@@ -205,7 +202,6 @@ HTTP 200 OK
         "first_name": "John", 
         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
         "id": 3, 
-        "is_followed_by_me": false, 
         "last_name": "Doe", 
         "username": "john.doe"
     }, 
@@ -217,7 +213,6 @@ HTTP 200 OK
         "first_name": "John", 
         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
         "id": 3, 
-        "is_followed_by_me": false, 
         "last_name": "Doe", 
         "username": "john.doe"
     }, 
@@ -254,7 +249,6 @@ HTTP 200 OK
     "status_changed_by": {
         "id": 4, 
         "username": "jane.doe", 
-        "is_followed_by_me": false, 
         "icon": "https://secure.gravatar.com/avatar/0cba00ca3da1b283a57287bcceb17e35?d=mm", 
         "first_name": "Jane", 
         "last_name": "Doe"
@@ -262,7 +256,6 @@ HTTP 200 OK
     "owner": {
         "id": 3, 
         "username": "john.doe", 
-        "is_followed_by_me": false, 
         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
         "first_name": "John", 
         "last_name": "Doe"

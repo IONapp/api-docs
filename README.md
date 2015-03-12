@@ -99,6 +99,11 @@ If you need more information about some part of the API, or you found a bug in t
   collide with the type of timeoff requests
 - Renamed `timeoff-type` to `type` in time-off [events][]
 - Removed `status_msg` in time-off [events][]
+- `timezone_name` will no longer be empty in [users][] and [tenant][], if the user doesn't set it manually, the tenant's timezone will be returned, if that is also empty, it will return the global default (currently `Europe/Warsaw`)
+- Removed `is_followed_by_me`, `is_following_me` from [users][]
+- Added the `followed` field to [/api/users/current/][users], which contains an ordered list of people followed by the current user
+- `/api/users/<username>/follow/` and `/api/users/<username>/unfollow/` now return the updated list of followed user ids
+- Added `/api/users/<username>/followed/` for getting/updating the above list
 
 #### Schedule redesign
 
