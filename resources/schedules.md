@@ -36,6 +36,7 @@ HTTP 200 OK
             }, 
             "start_date": "2014-11-15", 
             "end_date": null, 
+            "breaks": 1800,
             "rules": [
                 {
                     "start_time": "09:00:00", 
@@ -68,6 +69,7 @@ Only administrators can add schedules for other users.
 `owner` - username of the schedule's owner  
 `start_date` - `date` from which the schedule is active, should be a monday  
 `end_date` - `date` until which the schedule is active, should be a sunday, you can use `null` to specify a schedule that never ends  
+`breaks` - `number` daily breaks (eg. lunch breaks) in seconds, which should be included in the owner's [availability][]
 `rules` - `array` of schedule recurrence rules:
 - `start_time` - `time` when the work window starts
 - `end_time` - `time` when the work window ends
@@ -92,6 +94,7 @@ POST /api/schedules/insert/
     "owner": "john.doe",
     "start_date": "2014-12-08", 
     "end_date": null, 
+    "breaks": 1800,
     "rules": [
         {
           "start_time": "09:00:00",
@@ -128,6 +131,7 @@ HTTP 201 CREATED
     }, 
     "start_date": "2014-12-08", 
     "end_date": null, 
+    "breaks": 1800,
     "rules": [
         {
             "start_time": "09:00:00", 
@@ -169,3 +173,6 @@ HTTP 201 CREATED
     "id": 12
 }
 ```
+
+
+[availability]: availability.md "Availability"
