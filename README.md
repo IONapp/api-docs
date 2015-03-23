@@ -88,6 +88,32 @@ If you need more information about some part of the API, or you found a bug in t
 
 # Changelog
 
+## 0.16.x
+
+- Added the [locations][] resource
+- Location's primary key is an integer now and are referenced by an integer in [events][]
+- Previous `office` and `home` locations have been migrated to:
+
+```json
+{
+    "id": 1, 
+    "name": "Office", 
+    "icon": "office", 
+    "enabled": true, 
+    "editable": true
+},
+{
+    "id": 2, 
+    "name": "Home", 
+    "icon": "home", 
+    "enabled": true, 
+    "editable": true
+} 
+```
+
+- Added the `breaks` field to [schedule][schedules] objects
+- Added the [availability][] resource
+
 ## 0.15.x
 
 - Removed the [calendar][] resource, use the [events][] resource instead
@@ -166,9 +192,11 @@ Each type has an icon ([font-awesome][]) and a color, so you can easily tell the
 [font-awesome]: http://fontawesome.io
 
 [authentication]: authentication/README.md "Authentication"
+[availability]: resources/availability.md "Availability"
 [calendar]: resources/calendar.md "Calendar"
 [events]: resources/events.md "Events"
 [holidays]: resources/holidays.md "Holidays"
+[locations]: resources/locations.md "Work locations"
 [profile schema]: resources/profile_schema.md "User profile schema"
 [profiles]: resources/profiles.md "User profiles"
 [schedules]: resources/schedules.md "Schedules"
