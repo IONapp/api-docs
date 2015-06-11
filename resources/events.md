@@ -14,7 +14,7 @@ Each event has a `start` date, an `end` date, `type` and a `data` object.
     "type": "work-schedule", 
     "data": {
         "comment": "", 
-        "location": "office"
+        "location": 1
     }
 }, 
 ```
@@ -38,7 +38,7 @@ Each event has a `start` date, an `end` date, `type` and a `data` object.
 
 #### Work schedule - `work-schedule`
 
-- `data.location` - name of the work location, currently `office` or `home`
+- `data.location` - id of the [work location][locations]
 - `data.comment` - user's comment
 - `data.id` - custom schedule occurence's `id`, 
               omitted for scheduled occurences
@@ -49,7 +49,7 @@ Each event has a `start` date, an `end` date, `type` and a `data` object.
     "end": "2014-11-24T16:30:00Z", 
     "type": "work-schedule", 
     "data": {
-        "location": "office",
+        "location": 1,
         "comment": "" 
     }
 }
@@ -61,7 +61,7 @@ Each event has a `start` date, an `end` date, `type` and a `data` object.
     "end": "2014-11-27T16:30:00Z", 
     "type": "work-schedule",
     "data": {
-        "location": "home", 
+        "location": 2, 
         "comment": "working from home",
         "id": 793
     }
@@ -141,7 +141,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule",
                 "data": {
                     "comment": "", 
-                    "location": "home"
+                    "location": 2
                 }
             }, 
             {
@@ -150,7 +150,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule",
                 "data": {
                     "comment": "", 
-                    "location": "home"
+                    "location": 2
                 }
             }, 
             {
@@ -159,7 +159,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule",
                 "data": {
                     "comment": "", 
-                    "location": "home"
+                    "location": 2
                 }
             }, 
             {
@@ -168,7 +168,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule", 
                 "data": {
                     "comment": "", 
-                    "location": "office"
+                    "location": 1
                 }
             }
         ], 
@@ -179,7 +179,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule", 
                 "data": {
                     "comment": "", 
-                    "location": "office"
+                    "location": 1
                 }
             }, 
             {
@@ -188,7 +188,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule", 
                 "data": {
                     "comment": "", 
-                    "location": "office"
+                    "location": 1
                 }
             }, 
             {
@@ -197,7 +197,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule", 
                 "data": {
                     "comment": "", 
-                    "location": "office"
+                    "location": 1
                 }
             }, 
             {
@@ -218,7 +218,7 @@ Get all events for the week of November 24th 2014
                 "type": "work-schedule", 
                 "data": {
                     "comment": "", 
-                    "location": "office"
+                    "location": 1
                 }
             }
         ]
@@ -263,7 +263,7 @@ Get John Doe's events for the week of November 24th 2014
         "type": "work-schedule", 
         "data": {
             "comment": "", 
-            "location": "office"
+            "location": 1
         }
     }, 
     {
@@ -272,7 +272,7 @@ Get John Doe's events for the week of November 24th 2014
         "type": "work-schedule", 
         "data": {
             "comment": "", 
-            "location": "office"
+            "location": 1
         }
     }, 
     {
@@ -281,7 +281,7 @@ Get John Doe's events for the week of November 24th 2014
         "type": "work-schedule", 
         "data": {
             "comment": "", 
-            "location": "office"
+            "location": 1
         }
     }, 
     {
@@ -302,7 +302,7 @@ Get John Doe's events for the week of November 24th 2014
         "type": "work-schedule", 
         "data": {
             "comment": "", 
-            "location": "office"
+            "location": 1
         }
     }
 ]
@@ -315,3 +315,5 @@ Get John Doe's events for the week of November 24th 2014
 __Event types__:
 - work schedule
 - time off request
+
+[locations]: locations.md "Work locations"
