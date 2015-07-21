@@ -1,4 +1,4 @@
-Time off requests - /api/timeoff_requests/
+Time off and work time requests - /api/timeoff_requests/
 ==========================================================
 
 ## List requests
@@ -12,13 +12,18 @@ Time off requests - /api/timeoff_requests/
 `on` - `date` requests which are present on the given day  
 `since` - `date` requests which are present on the given day or later  
 `until` - `date` requests which are present on the given day or before  
-`for_approval_by` - requests that waiting for approval for specific person, accept approver user name  
+`for_approval_by` - requests pending approval from the user with the given username
 
 #### Example
 
 Get a list of accepted John Doe's requests for 2014.
 
-`GET /api/timeoff_requests/?user=john.doe&status=accepted&since=2014-01-01&until=2014-12-31&for_approval_by=1`
+```
+GET /api/timeoff_requests/?user=john.doe
+                          &status=accepted
+                          &since=2014-01-01
+                          &until=2014-12-31
+```
 
 ```json
 HTTP 200 OK
@@ -29,6 +34,19 @@ HTTP 200 OK
     "previous": null, 
     "results": [
         {
+            "id": 316, 
+            "owner": {
+                "id": 3, 
+                "username": "john.doe", 
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
+                "first_name": "John", 
+                "last_name": "Doe"
+            }, 
+            "type": 1,
+            "location": null,
+            "start_date": "2014-08-24T22:00:00Z", 
+            "end_date": "2014-08-28T22:00:00Z", 
+            "reason": "", 
             "approvers": [
                 {
                     "user": {
@@ -37,37 +55,15 @@ HTTP 200 OK
                         "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
                         "first_name": "Jane", 
                         "last_name": "Doe"
-                    }, 
-                    "status": "Pending"
+                    },
+                    "status": "Pending",
+                    "reply": ""
                 }
             ], 
-            "status_changed_by": {
-                "id": 4, 
-                "username": "jane.doe", 
-                "icon": "https://secure.gravatar.com/avatar/0cba00ca3da1b283a57287bcceb17e35?d=mm", 
-                "first_name": "Jane", 
-                "last_name": "Doe"
-            }, 
-            "owner": {
-                "id": 3, 
-                "username": "john.doe", 
-                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
-                "first_name": "John", 
-                "last_name": "Doe"
-            }, 
-            "status_msg": "Accepted by Jane Doe", 
-            "cancelable": false, 
-            "acceptable": false, 
-            "rejectable": false, 
-            "id": 316, 
+            "approval_message": "",
+            "status": "Pending", 
             "created": "2014-08-25T13:44:08.565Z", 
-            "updated": "2014-08-25T13:44:08.565Z", 
-            "start_date": "2014-08-24T22:00:00Z", 
-            "end_date": "2014-08-28T22:00:00Z", 
-            "reason": "", 
-            "comment": "", 
-            "status": "Accepted", 
-            "status_changed_comment": ""
+            "updated": "2014-08-25T13:44:08.565Z" 
         }, 
         ...
     ]
@@ -80,15 +76,19 @@ HTTP 200 OK
 
 #### Fields
 
-`owner` - username of the request's owner, if omitted, the authenticated user will be the owner  
+`owner` - username of the request's owner, defaults to the authenticated user  
+`type` - optional, [time-off type][timeoff types] id  
+`location` - optional, [location][locations] id  
 `start_date` - `datetime` start of the event  
 `end_date` - `datetime` end of the event  
 `reason` - event's description, visible to all ION domain users  
-`comment` - additional note only visible to managers and administrators  
-`approvers` - list of request approvers, they get email asking them to confirm time off request. request will be accepted when all approvers confirm reuqest, rejected when any of approvers reject it  
+`approvers` - list of users, that will be asked for approving the request.  
+`approval_message` - additional note only visible to approvers  
 
-__Note__  
-New time off requests can't overlap with existing accepted or pending time off requests from the same user. Trying to add an overlapping request will result in:
+__Notes__  
+You have to provide either the `type` (for time-off requests) or `location` (for work-time requests).
+
+New requests can't overlap with existing accepted or pending requests from the same user. Trying to add an overlapping request will result in:
 
 ```json
 HTTP 400 BAD REQUEST
@@ -100,7 +100,8 @@ HTTP 400 BAD REQUEST
 }
 ```
 
-__Note__  
+Request's `status` will change to `Accepted` once all approvers accept it, or change to `Rejected` if one of them rejects it.  
+
 Only administrators can add a request on behalf of another user
 
 #### Example
@@ -110,25 +111,22 @@ POST /api/timeoff_requests/
 
 {
     "owner": "john.doe",
+    "type": 1,
     "start_date": "2014-09-30T22:00:00.000Z",
     "end_date": "2014-10-12T22:00:00.000Z",
     "reason": "Vacation",
-    "comment": "",
-    "approvers": [
-        {
-            "user": {"username": "john.doe2"}
-        },
-        {
-            "user": {"username": "john.doe3"}
-        }
-    ]
+    "approvers": [{
+        "user": {"username": "jane.doe"}
+    }],
+    "approval_message": ""
+}
 ```
 
 ```json
 HTTP 201 CREATED
 
 {
-    "status_changed_by": null, 
+    "id": 3, 
     "owner": {
         "id": 3, 
         "username": "john.doe", 
@@ -136,41 +134,28 @@ HTTP 201 CREATED
         "first_name": "John", 
         "last_name": "Doe"
     }, 
-    "approvers": [
-        {
-            "status": "Pending",
-            "user": {
-                "id": 32
-                "first_name": "john"
-                "last_name": "doe"
-                "username": "john.doe2"
-                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
-            }
-        },
-        {
-            "status": "Pending",
-            "user": {
-                "id": 33
-                "first_name": "john"
-                "last_name": "doe"
-                "username": "john.doe3"
-                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
-            }
-        }
-    ],
-    "status_msg": "Pending", 
-    "cancelable": true, 
-    "acceptable": false, 
-    "rejectable": false, 
-    "id": 3, 
-    "created": "2014-09-26T10:27:49.472Z", 
-    "updated": "2014-09-26T10:27:49.480Z", 
+    "type": 1,
+    "location": null,
     "start_date": "2014-09-30T22:00:00Z", 
     "end_date": "2014-10-12T22:00:00Z", 
     "reason": "Vacation", 
-    "comment": "", 
-    "status": "Pending", 
-    "status_changed_comment": ""
+    "approvers": [
+        {
+            "user": {
+                "id": 4,
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "username": "jane.doe",
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
+            },
+            "status": "Pending",
+            "reply": ""
+        }
+    ],
+    "approval_message": "", 
+    "status": "Pending",
+    "created": "2014-09-26T10:27:49.472Z", 
+    "updated": "2014-09-26T10:27:49.480Z"
 }
 ```
 
@@ -192,33 +177,36 @@ Only available to the requests's owner.
 HTTP 200 OK
 
 {
-    "acceptable": false, 
-    "cancelable": false, 
-    "comment": "", 
-    "created": "2014-09-26T10:27:49.472Z", 
-    "end_date": "2014-10-12T22:00:00Z", 
     "id": 3, 
     "owner": {
-        "first_name": "John", 
-        "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
         "id": 3, 
-        "last_name": "Doe", 
-        "username": "john.doe"
+        "username": "john.doe", 
+        "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
+        "first_name": "John", 
+        "last_name": "Doe"
     }, 
-    "reason": "Vacation", 
-    "rejectable": false, 
+    "type": 1,
+    "location": null,
     "start_date": "2014-09-30T22:00:00Z", 
-    "status": "Canceled", 
-    "status_changed_by": {
-        "first_name": "John", 
-        "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm", 
-        "id": 3, 
-        "last_name": "Doe", 
-        "username": "john.doe"
-    }, 
-    "status_changed_comment": "", 
-    "status_msg": "Canceled by John Doe", 
-    "updated": "2014-09-26T10:51:43.989Z"
+    "end_date": "2014-10-12T22:00:00Z", 
+    "reason": "Vacation", 
+    "approvers": [
+        {
+            "user": {
+                "id": 4,
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "username": "jane.doe",
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
+            },
+            "status": "Pending",
+            "reply": ""
+        }
+    ],
+    "approval_message": "", 
+    "status": "Canceled",
+    "created": "2014-09-26T10:27:49.472Z", 
+    "updated": "2014-09-26T10:27:49.480Z"
 }
 ```
 
@@ -227,7 +215,7 @@ HTTP 200 OK
 `POST /api/timeoff_requests/<id>/accept/`  
 `POST /api/timeoff_requests/<id>/reject/`
 
-Available only to request approvers, choosed by user who create request.
+Available only to request approvers (selected by the owner). 
 When rejecting a request, you can add a comment for the request's owner.
 
 #### Example
@@ -246,13 +234,7 @@ POST /api/timeoff_requests/3/reject/
 HTTP 200 OK
 
 {
-    "status_changed_by": {
-        "id": 4, 
-        "username": "jane.doe", 
-        "icon": "https://secure.gravatar.com/avatar/0cba00ca3da1b283a57287bcceb17e35?d=mm", 
-        "first_name": "Jane", 
-        "last_name": "Doe"
-    }, 
+    "id": 3, 
     "owner": {
         "id": 3, 
         "username": "john.doe", 
@@ -260,18 +242,31 @@ HTTP 200 OK
         "first_name": "John", 
         "last_name": "Doe"
     }, 
-    "status_msg": "Rejected by Jane Doe", 
-    "cancelable": false, 
-    "acceptable": true, 
-    "rejectable": false, 
-    "id": 6, 
-    "created": "2014-09-26T11:06:26.140Z", 
-    "updated": "2014-09-26T11:09:20.443Z", 
+    "type": 1,
+    "location": null,
     "start_date": "2014-09-30T22:00:00Z", 
-    "end_date": "2014-10-31T23:00:00Z", 
+    "end_date": "2014-10-12T22:00:00Z", 
     "reason": "Vacation", 
-    "comment": "", 
-    "status": "Rejected", 
-    "status_changed_comment": "You've already been assigned to a project for October"
+    "approvers": [
+        {
+            "user": {
+                "id": 4,
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "username": "jane.doe",
+                "icon": "https://secure.gravatar.com/avatar/8eb1b522f60d11fa897de1dc6351b7e8?d=mm"
+            },
+            "status": "Rejected",
+            "reply": "You've already been assigned to a project for October"
+        }
+    ],
+    "approval_message": "", 
+    "status": "Rejected",
+    "created": "2014-09-26T10:27:49.472Z", 
+    "updated": "2014-09-26T10:27:49.480Z"
 }
 ```
+
+
+[locations]: locations.md "Work locations"
+[timeoff types]: timeoff_types.md "Time-off types"
