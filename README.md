@@ -88,6 +88,41 @@ If you need more information about some part of the API, or you found a bug in t
 
 # Changelog
 
+## 0.17.x
+
+- Custom schedule occurences moved to the [timeoff requests][] resource, 
+  details below
+- Removed [timeoff request][timeoff requests] fields:
+  - `acceptable`
+  - `cancelable`, 
+  - `rejectable`
+  - `status_changed_by`
+  - `status_changed_comment`
+  - `status_msg`
+- Added the optional [timeoff request][timeoff requests] `location` field
+- Added the [timeoff request][timeoff requests] `approvers[].reply` field,
+  which replaces the `status_changed_comment` field
+- Renamed [timeoff request][timeoff requests] `comment` field to 
+  `approval_message`
+- Custom `work-schedule` [event][events] `data.comment` field renamed 
+  to `data.reason`
+- Added `data.status` and `data.approvers` fields to 
+  custom `work-schedule` [events][]
+- Removed `data.comment` for `time-off` [events][]
+- [Schedule occurences][] resource is now read-only (`GET`, `OPTIONS`)
+- Custom schedule occurences were removed from the [schedule occurences][] 
+  resource
+
+#### Custom schedule occurences moved
+
+Custom schedule occurences are now handled by the [timeoff requests][] resource. Thanks to this move, we now have work time approvals and notifications.
+
+When creating a request, you need to specify either:
+- `type` - for time-off requests
+- `location` - for work time requests
+
+Because custom `work-schedule` [events][] (those with a `data.id`) are now [timeoff requests][], their `data` field is now more in line with that of `time-off` events. The only difference is that you'll get a `location` id instead of the `type` id.
+
 ## 0.16.x
 
 - Added the [locations][] resource

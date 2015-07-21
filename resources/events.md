@@ -40,8 +40,6 @@ Each event has a `start` date, an `end` date, `type` and a `data` object.
 
 - `data.location` - id of the [work location][locations]
 - `data.comment` - user's comment
-- `data.id` - custom schedule occurence's `id`, 
-              omitted for scheduled occurences
 
 ```json
 {
@@ -55,40 +53,50 @@ Each event has a `start` date, an `end` date, `type` and a `data` object.
 }
 ```
 
-```json
-{
-    "start": "2014-11-27T08:00:00Z", 
-    "end": "2014-11-27T16:30:00Z", 
-    "type": "work-schedule",
-    "data": {
-        "location": 2, 
-        "comment": "working from home",
-        "id": 793
-    }
-}
-```
-
-#### Time off request - `time-off`
+#### Time off request - `time-off`, `work-schedule`
 
 - `data.id` - id of the time off request
-- `data.reason` - reason
-- `data.comment` - private message
 - `data.status` - request status
-- `data.type` - id of custom time off type, check [/api/timeoff_requests/types/](./timeoff_types.md)  
+- `data.reason` - reason
+- `data.approvers` - list of approver ids
+
+Only `time-off` type:
+- `data.type` - id of the time off type, 
+  check [/api/timeoff_requests/types/](./timeoff_types.md)  
+
+Only `work-schedule` type:
+- `data.location` - id of the work location, 
+  check [/api/locations/](./locations.md)  
+
+__Note__  
+At the moment time-off data and schedule occurence data share the `work-schedule` type, you can tell them apart by checking whether `data` has the `id` field.
+
 
 ```json
 {
-    "start": "2014-11-26T11:30:00Z", 
-    "end": "2014-11-26T13:00:00Z", 
+    "start": "2015-07-27T22:00:00Z", 
+    "end": "2015-07-31T22:00:00Z", 
     "type": "time-off", 
     "data": {
-        "id": 418,
-        "type": 1,
-        "reason": "Doctor's appointment", 
-        "comment": "", 
-        "status": "Pending",
+        "id": 134,
+        "status": "Pending", 
+        "reason": "", 
+        "approvers": [65], 
+        "type": 1 
     }
-}
+}, 
+{
+    "start": "2015-08-03T12:00:00Z", 
+    "end": "2015-08-03T14:00:00Z", 
+    "type": "work-schedule", 
+    "data": {
+        "id": 144, 
+        "status": "Pending", 
+        "reason": "delivery", 
+        "approvers": [49], 
+        "location": 2
+    }
+} 
 ```
 
 ## Filters
@@ -205,10 +213,10 @@ Get all events for the week of November 24th 2014
                 "end": "2014-11-28T23:00:00Z", 
                 "type": "time-off", 
                 "data": {
-                    "comment": "", 
-                    "status": "Pending",
-                    "reason": "Long weekend", 
                     "id": 11,
+                    "status": "Accepted",
+                    "reason": "Long weekend", 
+                    "approvers": [],
                     "type": 1
                 }
             }, 
@@ -289,10 +297,10 @@ Get John Doe's events for the week of November 24th 2014
         "end": "2014-11-28T23:00:00Z", 
         "type": "time-off", 
         "data": {
-            "comment": "", 
+            "id": 11,
             "status": "Pending", 
             "reason": "Long weekend", 
-            "id": 11,
+            "approvers": [],
             "type": 1
         }
     }, 
