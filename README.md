@@ -107,7 +107,8 @@ If you need more information about some part of the API, or you found a bug in t
 - Custom `work-schedule` [event][events] `data.comment` field renamed 
   to `data.reason`
 - Added `data.status` and `data.approvers` fields to 
-  custom `work-schedule` [event's][events]
+  custom `work-schedule` [events][]
+- Removed `data.comment` for `time-off` [events][]
 - [Schedule occurences][] resource is now read-only (`GET`, `OPTIONS`)
 - Custom schedule occurences were removed from the [schedule occurences][] 
   resource
